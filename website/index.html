@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="icon" type="image/png" href="assets/images/3dviewer_net_favicon.ico">
     <link rel="canonical" href="https://3dviewer.net">
+
+    <!-- PWA meta tags -->
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="description" content="Online 3D Viewer - View and analyze 3D models in your browser">
+    <link rel="manifest" href="/manifest.json">
 
     <title>Online 3D Viewer</title>
 
@@ -21,11 +26,11 @@
 
     <!-- website analytics start -->
     <script type="text/javascript">
-        OV.SetWebsiteEventHandler ((eventName, eventLabel, eventParams) => {
-            console.log ({
-                eventName : eventName,
-                eventLabel : eventLabel,
-                eventParams : eventParams
+        OV.SetWebsiteEventHandler((eventName, eventLabel, eventParams) => {
+            console.log({
+                eventName: eventName,
+                eventLabel: eventLabel,
+                eventParams: eventParams
             });
         });
     </script>
@@ -33,15 +38,29 @@
 
     <!-- website init start -->
     <script type="text/javascript">
-        OV.StartWebsite ('../libs');
+        OV.StartWebsite('../libs');
     </script>
     <!-- website init end -->
 
+    <!-- PWA service worker registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('Service Worker registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
 </head>
 
 <body>
     <input type="file" id="open_file" style="display:none;" multiple></input>
-    <div class="header" id="header">
+    <header class="header" id="header">
         <div class="title">
             <div class="title_left">
                 <a href="index.html">
@@ -51,9 +70,9 @@
             <div class="title_right" id="header_buttons"></div>
             <div class="main_file_name only_full_width" id="main_file_name"></div>
         </div>
-        <div class="toolbar" id="toolbar"></div>
-    </div>
-    <div class="main" id="main">
+        <nav class="toolbar" id="toolbar"></nav>
+    </header>
+    <main class="main" id="main">
         <div class="main_left_container only_full_width" id="main_left_container">
             <div class="main_navigator ov_panel_set_container" id="main_navigator"></div>
             <div class="main_splitter" id="main_navigator_splitter"></div>
@@ -63,7 +82,7 @@
             <div class="main_splitter" id="main_sidebar_splitter"></div>
             <div class="main_sidebar ov_panel_set_right_container" id="main_sidebar"></div>
         </div>
-    </div>
+    </main>
     <div class="intro ov_thin_scrollbar" id="intro">
         <div class="intro_content" id="intro_content">
             <div class="intro_logo">
